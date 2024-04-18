@@ -4,6 +4,7 @@
 -- display the results onscreen. The code rates the customer high if total purchases are greater than
 -- $200, mid if greater than $100, and low if $100 or lower. Develop a flowchart to outline the
 -- conditional processing steps needed for this block.
+-- https://lucid.app/lucidchart/da728d66-4dd5-4d6c-be44-76c576d943f7/edit?viewport_loc=-453%2C-438%2C2748%2C1716%2C0_0&invitationId=inv_5b8c9055-1d8e-405f-b46e-bb7181530845
 
 -- ## Question 2 (5 marks) – Using IF Statements
 -- Create a PLSQL block using an IF statement to perform the actions described in Question 1. Use
@@ -21,7 +22,6 @@ BEGIN
     ELSE
         lv_customer_rating := 'Low';
     END IF;
-
     DBMS_OUTPUT.PUT_LINE('Customer Rating: '
                          || lv_customer_rating);
 END;
