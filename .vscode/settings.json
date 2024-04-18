@@ -5,7 +5,7 @@
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
     "files.insertFinalNewline": true,
-    "gitdoc.enabled": false,
+    "gitdoc.enabled": true,
     "git.autofetch": true,
     "gitdoc.autoCommitDelay": 60000,
     "gitdoc.commitMessageFormat": "ccc, LLL d, y, h:mm a '+00:00'",
