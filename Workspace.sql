@@ -129,3 +129,8 @@ EXCEPTION
     RETURN NULL; -- Indicate error occurred
 END TAX_CALC_SF;
 /
+
+SELECT idbasket,
+       subtotal,
+       TAX_CALC_SF(idbasket) AS tax_amount
+FROM bb_basket;
