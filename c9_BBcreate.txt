@@ -1,3 +1,80 @@
+DECLARE
+    lv_sql VARCHAR2(1000);
+BEGIN
+    -- Drop all tables
+    FOR tab IN (
+        SELECT
+            table_name
+        FROM
+            user_tables
+    ) LOOP
+        lv_sql := 'DROP TABLE '
+                 || tab.table_name
+                 || ' CASCADE CONSTRAINTS';
+        EXECUTE IMMEDIATE lv_sql;
+    END LOOP;
+    -- Drop all sequences
+    FOR seq IN (
+        SELECT
+            sequence_name
+        FROM
+            user_sequences
+    ) LOOP
+        lv_sql := 'DROP SEQUENCE '
+                 || seq.sequence_name;
+        EXECUTE IMMEDIATE lv_sql;
+    END LOOP;
+    -- Drop all procedures
+    FOR proc IN (
+        SELECT
+            object_name
+        FROM
+            user_objects
+        WHERE
+            object_type = 'PROCEDURE'
+    ) LOOP
+        lv_sql := 'DROP PROCEDURE '
+                 || proc.object_name;
+        EXECUTE IMMEDIATE lv_sql;
+    END LOOP;
+    -- Drop all functions
+    FOR func IN (
+        SELECT
+            object_name
+        FROM
+            user_objects
+        WHERE
+            object_type = 'FUNCTION'
+    ) LOOP
+        lv_sql := 'DROP FUNCTION '
+                 || func.object_name;
+        EXECUTE IMMEDIATE lv_sql;
+    END LOOP;
+    -- Drop all indexes
+    FOR idx IN (
+        SELECT
+            index_name
+        FROM
+            user_indexes
+    ) LOOP
+        lv_sql := 'DROP INDEX '
+                 || idx.index_name;
+        EXECUTE IMMEDIATE lv_sql;
+    END LOOP;
+ -- Drop all triggers
+    FOR trig IN (
+        SELECT
+            trigger_name
+        FROM
+            user_triggers
+    ) LOOP
+        lv_sql := 'DROP TRIGGER '
+                 || trig.trigger_name;
+        EXECUTE IMMEDIATE lv_sql;
+    END LOOP;
+END;
+/
+
 DROP VIEW bb_basketitem_vu;
 DROP VIEW bb_ship_vu;
 DROP TABLE bb_department CASCADE CONSTRAINTS;
