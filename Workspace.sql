@@ -5,7 +5,6 @@
 -- $200, mid if greater than $100, and low if $100 or lower. Develop a flowchart to outline the
 -- conditional processing steps needed for this block.
 
-
 -- ## Question 2 (5 marks) – Using IF Statements
 -- Create a PLSQL block using an IF statement to perform the actions described in Question 1. Use
 -- a scalar variable for the total purchase amount and initialize this variable to different values to
@@ -48,14 +47,14 @@ CREATE OR REPLACE PROCEDURE STATUS_SHIP_SP (
     p_shipper IN VARCHAR2,
     p_tracking_num IN VARCHAR2
 ) AS
-    v_status_id bb_basketstatus.idStatus%TYPE;
+    lv_status_id bb_basketstatus.idStatus%TYPE;
 BEGIN
- -- Generate unique ID for the status entry
+    -- Generate unique ID for the status entry
     SELECT
-        bb_status_seq.NEXTVAL INTO v_status_id
+        bb_status_seq.NEXTVAL INTO lv_status_id
     FROM
         dual;
- -- Insert shipping information into the basket status table
+    -- Insert shipping information into the basket status table
     INSERT INTO bb_basketstatus (
         idStatus,
         idBasket,
@@ -64,16 +63,14 @@ BEGIN
         shipper,
         ShippingNum
     ) VALUES (
-        v_status_id,
+        lv_status_id,
         p_basket_id,
         3,
         p_date_shipped,
         p_shipper,
         p_tracking_num
     );
- -- Commit the transaction
     COMMIT;
- -- Output success message
     DBMS_OUTPUT.PUT_LINE('Shipping information added successfully for Basket ID '
                          || p_basket_id);
 EXCEPTION
