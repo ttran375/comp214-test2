@@ -15,18 +15,19 @@
 -- test your block.
 -- Capture your output and include in a word document.
 DECLARE
-   lv_total_purchase NUMBER := 150;
-   lv_customer_rating VARCHAR2(10);
+    lv_total_purchase  NUMBER := 150;
+    lv_customer_rating VARCHAR2(10);
 BEGIN
-   IF lv_total_purchase > 200 THEN
-      lv_customer_rating := 'High';
-   ELSIF lv_total_purchase > 100 THEN
-      lv_customer_rating := 'Mid';
-   ELSE
-      lv_customer_rating := 'Low';
-   END IF;
-   
-   DBMS_OUTPUT.PUT_LINE('Customer Rating: ' || lv_customer_rating);
+    IF lv_total_purchase > 200 THEN
+        lv_customer_rating := 'High';
+    ELSIF lv_total_purchase > 100 THEN
+        lv_customer_rating := 'Mid';
+    ELSE
+        lv_customer_rating := 'Low';
+    END IF;
+
+    DBMS_OUTPUT.PUT_LINE('Customer Rating: '
+                         || lv_customer_rating);
 END;
 /
 
@@ -50,36 +51,45 @@ CREATE OR REPLACE PROCEDURE STATUS_SHIP_SP (
     p_date_shipped IN DATE,
     p_shipper IN VARCHAR2,
     p_tracking_num IN VARCHAR2
-)
-AS
+) AS
     v_status_id bb_basketstatus.idStatus%TYPE;
 BEGIN
-    -- Generate unique ID for the status entry
-    SELECT bb_status_seq.NEXTVAL INTO v_status_id FROM dual;
-    
-    -- Insert shipping information into the basket status table
-    INSERT INTO bb_basketstatus (idStatus, idBasket, idStage, dtStage, shipper, ShippingNum)
-    VALUES (v_status_id, p_basket_id, 3, p_date_shipped, p_shipper, p_tracking_num);
-    
-    -- Commit the transaction
+ -- Generate unique ID for the status entry
+    SELECT
+        bb_status_seq.NEXTVAL INTO v_status_id
+    FROM
+        dual;
+ -- Insert shipping information into the basket status table
+    INSERT INTO bb_basketstatus (
+        idStatus,
+        idBasket,
+        idStage,
+        dtStage,
+        shipper,
+        ShippingNum
+    ) VALUES (
+        v_status_id,
+        p_basket_id,
+        3,
+        p_date_shipped,
+        p_shipper,
+        p_tracking_num
+    );
+ -- Commit the transaction
     COMMIT;
-    
-    -- Output success message
-    DBMS_OUTPUT.PUT_LINE('Shipping information added successfully for Basket ID ' || p_basket_id);
+ -- Output success message
+    DBMS_OUTPUT.PUT_LINE('Shipping information added successfully for Basket ID '
+                         || p_basket_id);
 EXCEPTION
     WHEN OTHERS THEN
-        -- Output error message
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+ -- Output error message
+        DBMS_OUTPUT.PUT_LINE('Error: '
+                             || SQLERRM);
 END STATUS_SHIP_SP;
 /
 
 BEGIN
-    STATUS_SHIP_SP(
-        p_basket_id => 3,
-        p_date_shipped => TO_DATE('20-FEB-12', 'DD-MON-YY'),
-        p_shipper => 'UPS',
-        p_tracking_num => 'ZW2384YXK4957'
-    );
+    STATUS_SHIP_SP( p_basket_id => 3, p_date_shipped => TO_DATE('20-FEB-12', 'DD-MON-YY'), p_shipper => 'UPS', p_tracking_num => 'ZW2384YXK4957' );
 END;
 /
 
@@ -92,45 +102,50 @@ END;
 -- in the tax table or no shipping state is assigned to the basket, a tax amount of zero should be
 -- applied to the order. Use the function in a SELECT statement that displays the shipping costs for
 -- a basket that has tax applied and a basket with no shipping state.
-CREATE OR REPLACE FUNCTION TAX_CALC_SF(p_basket_id IN NUMBER)
-  RETURN NUMBER
-IS
-  lv_state bb_basket.shipstate%TYPE;
-  lv_tax_rate bb_tax.taxrate%TYPE;
-  lv_subtotal bb_basket.subtotal%TYPE;
-  lv_tax_amount NUMBER(7,2);
+CREATE OR REPLACE FUNCTION TAX_CALC_SF(
+    p_basket_id IN NUMBER
+) RETURN NUMBER IS
+    lv_state      bb_basket.shipstate%TYPE;
+    lv_tax_rate   bb_tax.taxrate%TYPE;
+    lv_subtotal   bb_basket.subtotal%TYPE;
+    lv_tax_amount NUMBER(7, 2);
 BEGIN
-  -- Retrieve shipping state and subtotal for the given basket ID
-  SELECT shipstate, subtotal
-  INTO lv_state, lv_subtotal
-  FROM bb_basket
-  WHERE idbasket = p_basket_id;
-
-  -- Retrieve the tax rate for the shipping state
-  SELECT taxrate
-  INTO lv_tax_rate
-  FROM bb_tax
-  WHERE state = lv_state;
-
-  -- Calculate tax amount
-  IF lv_tax_rate IS NOT NULL THEN
-    lv_tax_amount := lv_subtotal * lv_tax_rate;
-  ELSE
-    lv_tax_amount := 0;
-  END IF;
-
-  -- Return tax amount
-  RETURN lv_tax_amount;
+ -- Retrieve shipping state and subtotal for the given basket ID
+    SELECT
+        shipstate,
+        subtotal INTO lv_state,
+        lv_subtotal
+    FROM
+        bb_basket
+    WHERE
+        idbasket = p_basket_id;
+ -- Retrieve the tax rate for the shipping state
+    SELECT
+        taxrate INTO lv_tax_rate
+    FROM
+        bb_tax
+    WHERE
+        state = lv_state;
+ -- Calculate tax amount
+    IF lv_tax_rate IS NOT NULL THEN
+        lv_tax_amount := lv_subtotal * lv_tax_rate;
+    ELSE
+        lv_tax_amount := 0;
+    END IF;
+ -- Return tax amount
+    RETURN lv_tax_amount;
 EXCEPTION
-  -- Handle exceptions such as state not found or other errors
-  WHEN NO_DATA_FOUND THEN
-    RETURN 0;
-  WHEN OTHERS THEN
-    RETURN NULL; -- Indicate error occurred
+ -- Handle exceptions such as state not found or other errors
+    WHEN NO_DATA_FOUND THEN
+        RETURN 0;
+    WHEN OTHERS THEN
+        RETURN NULL; -- Indicate error occurred
 END TAX_CALC_SF;
 /
 
-SELECT idbasket,
-       subtotal,
-       TAX_CALC_SF(idbasket) AS tax_amount
-FROM bb_basket;
+SELECT
+    idbasket,
+    subtotal,
+    TAX_CALC_SF(idbasket) AS tax_amount
+FROM
+    bb_basket;
