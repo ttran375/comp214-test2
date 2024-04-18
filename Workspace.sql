@@ -1,15 +1,12 @@
--- # Final – Hands On
-
 -- ## Question 1 (5 marks) – Basic PL/SQL Block Structures
-
 -- The Brewbean’s application needs a block that determines whether a customer is rated high, mid,
 -- or low based on his or her total purchases. The block needs to determine the rating and then
 -- display the results onscreen. The code rates the customer high if total purchases are greater than
 -- $200, mid if greater than $100, and low if $100 or lower. Develop a flowchart to outline the
 -- conditional processing steps needed for this block.
 
--- ## Question 2 (5 marks) – Using IF Statements
 
+-- ## Question 2 (5 marks) – Using IF Statements
 -- Create a PLSQL block using an IF statement to perform the actions described in Question 1. Use
 -- a scalar variable for the total purchase amount and initialize this variable to different values to
 -- test your block.
@@ -32,7 +29,6 @@ END;
 /
 
 -- # Question 3 (5 marks) – Procedures
-
 -- Create a procedure named STATUS_SHIP_SP that allows an employee in the Shipping
 -- Department to update an order status to add shipping information. The BB_BASKETSTATUS
 -- table lists events for each order so that a shopper can see the current status, date, and comments
@@ -94,7 +90,6 @@ END;
 /
 
 -- # Question 4 (5 marks) - Functions
-
 -- Create a function named TAX_CALC_SF that accepts a basket ID, calculates the tax amount by
 -- using the basket subtotal, and returns the correct tax amount for the order. The tax is determined
 -- by the shipping state, which is stored in the BB_BASKET table. The BB_TAX table contains the
