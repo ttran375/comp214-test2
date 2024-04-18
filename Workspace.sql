@@ -14,21 +14,19 @@
 -- a scalar variable for the total purchase amount and initialize this variable to different values to
 -- test your block.
 -- Capture your output and include in a word document.
-
 DECLARE
-   v_total_purchase NUMBER := 150; -- Initialize the total purchase amount here
-   
-   v_customer_rating VARCHAR2(10);
+   lv_total_purchase NUMBER := 150;
+   lv_customer_rating VARCHAR2(10);
 BEGIN
-   IF v_total_purchase > 200 THEN
-      v_customer_rating := 'High';
-   ELSIF v_total_purchase > 100 THEN
-      v_customer_rating := 'Mid';
+   IF lv_total_purchase > 200 THEN
+      lv_customer_rating := 'High';
+   ELSIF lv_total_purchase > 100 THEN
+      lv_customer_rating := 'Mid';
    ELSE
-      v_customer_rating := 'Low';
+      lv_customer_rating := 'Low';
    END IF;
    
-   DBMS_OUTPUT.PUT_LINE('Customer Rating: ' || v_customer_rating);
+   DBMS_OUTPUT.PUT_LINE('Customer Rating: ' || lv_customer_rating);
 END;
 /
 
