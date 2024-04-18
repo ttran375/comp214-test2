@@ -49,12 +49,10 @@ CREATE OR REPLACE PROCEDURE STATUS_SHIP_SP (
 ) AS
     lv_status_id bb_basketstatus.idStatus%TYPE;
 BEGIN
-    -- Generate unique ID for the status entry
     SELECT
         bb_status_seq.NEXTVAL INTO lv_status_id
     FROM
         dual;
-    -- Insert shipping information into the basket status table
     INSERT INTO bb_basketstatus (
         idStatus,
         idBasket,
@@ -75,7 +73,6 @@ BEGIN
                          || p_basket_id);
 EXCEPTION
     WHEN OTHERS THEN
- -- Output error message
         DBMS_OUTPUT.PUT_LINE('Error: '
                              || SQLERRM);
 END STATUS_SHIP_SP;
@@ -102,7 +99,6 @@ CREATE OR REPLACE FUNCTION TAX_CALC_SF(
     lv_subtotal   bb_basket.subtotal%TYPE;
     lv_tax_amount NUMBER(7, 2);
 BEGIN
- -- Retrieve shipping state and subtotal for the given basket ID
     SELECT
         shipstate,
         subtotal INTO lv_state,
@@ -111,27 +107,23 @@ BEGIN
         bb_basket
     WHERE
         idbasket = p_basket_id;
- -- Retrieve the tax rate for the shipping state
     SELECT
         taxrate INTO lv_tax_rate
     FROM
         bb_tax
     WHERE
         state = lv_state;
- -- Calculate tax amount
     IF lv_tax_rate IS NOT NULL THEN
         lv_tax_amount := lv_subtotal * lv_tax_rate;
     ELSE
         lv_tax_amount := 0;
     END IF;
- -- Return tax amount
     RETURN lv_tax_amount;
 EXCEPTION
- -- Handle exceptions such as state not found or other errors
     WHEN NO_DATA_FOUND THEN
         RETURN 0;
     WHEN OTHERS THEN
-        RETURN NULL; -- Indicate error occurred
+        RETURN NULL;
 END TAX_CALC_SF;
 /
 
