@@ -12,7 +12,7 @@
 -- test your block.
 -- Capture your output and include in a word document.
 DECLARE
-    lv_total_purchase  NUMBER := 150;
+    lv_total_purchase  NUMBER := 100;
     lv_customer_rating VARCHAR2(10);
 BEGIN
     IF lv_total_purchase > 200 THEN
