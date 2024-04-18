@@ -15,6 +15,23 @@
 -- test your block.
 -- Capture your output and include in a word document.
 
+DECLARE
+   v_total_purchase NUMBER := 150; -- Initialize the total purchase amount here
+   
+   v_customer_rating VARCHAR2(10);
+BEGIN
+   IF v_total_purchase > 200 THEN
+      v_customer_rating := 'High';
+   ELSIF v_total_purchase > 100 THEN
+      v_customer_rating := 'Mid';
+   ELSE
+      v_customer_rating := 'Low';
+   END IF;
+   
+   DBMS_OUTPUT.PUT_LINE('Customer Rating: ' || v_customer_rating);
+END;
+/
+
 -- # Question 3 (5 marks) – Procedures
 
 -- Create a procedure named STATUS_SHIP_SP that allows an employee in the Shipping
