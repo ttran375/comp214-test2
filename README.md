@@ -15,7 +15,7 @@ a scalar variable for the total purchase amount and initialize this variable to 
 test your block.
 Capture your output and include in a word document.
 
-# Question 3 (5 marks) – Procedures
+## Question 3 (5 marks) – Procedures
 
 Create a procedure named STATUS_SHIP_SP that allows an employee in the Shipping
 Department to update an order status to add shipping information. The BB_BASKETSTATUS
@@ -32,7 +32,7 @@ Test the procedure with the following information:
 - Shipper = UPS
 - Tracking # = ZW2384YXK4957
 
-# Question 4 (5 marks) - Functions
+## Question 4 (5 marks) - Functions
 
 Create a function named TAX_CALC_SF that accepts a basket ID, calculates the tax amount by
 using the basket subtotal, and returns the correct tax amount for the order. The tax is determined
